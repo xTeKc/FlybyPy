@@ -3,3 +3,5 @@ import scapy.all as scapy
 
 def process_packet():
     scapy_packet = scapy.IP(packet.get_payload())
+    if scapy_packet.haslayer(scapy.Raw):
+        print(scapy_packet.show)
