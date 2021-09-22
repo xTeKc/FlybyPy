@@ -9,6 +9,7 @@ def process_packet():
             print(scapy_packet.show())
         elif scapy_packet[scapy.TCP].sport == 80:
             print("HTTP Response")
+            print(scapy_packet.show())
         
 
     packet.accept()
