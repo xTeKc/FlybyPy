@@ -7,7 +7,9 @@ def process_packet():
         if scapy_packet[scapy.TCP].dport == 80:
             print("HTTP Request")
             print(scapy_packet.show())
-        elif
+        elif scapy_packet[scapy.TCP].sport == 80:
+            print("HTTP Response")
+        
 
     packet.accept()
 
