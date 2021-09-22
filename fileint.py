@@ -3,7 +3,7 @@ import scapy.all as scapy
 
 ack_list = []
 
-def process_packet():
+def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     if scapy_packet.haslayer(scapy.Raw):
         if scapy_packet[scapy.TCP].dport == 80:
@@ -19,6 +19,7 @@ def process_packet():
                 del scapy_packet[scapy.IP].len
                 del scapy_packet[scapy.IP].chksum
                 del scapy_packet[scapy.TCP].chksum
+                packet.set_payload(str(scapy_packet))
 
     packet.accept()
 
